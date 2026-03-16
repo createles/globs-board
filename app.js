@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import "dotenv/config";
 import connectPgSimple from 'connect-pg-simple';
 import pool from './db/pool';
+import appRouter from './routes/appRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 // allow to parse form body
 app.use(express.urlencoded({ extended: true }));
 
+// public folder setup
 app.use(express.static(path.join(__dirname, 'public')));
 
 const pgSession = connectPgSimple(session);
@@ -36,6 +38,8 @@ app.use(session({
     maxAge: 30 * 24 * 60 * 60 * 1000
   }
 }))
+
+app.use('/', appRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
