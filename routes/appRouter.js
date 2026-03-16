@@ -7,10 +7,9 @@ import router from "./indexRoute.js";
 
 const appRouter = Router();
 
-router.use('/', indexRoute);
-router.use('/', authRoute);
-router.use('/post', postRoute);
-router.use('/communities', communityRoute);
+appRouter.use('/', indexRoute);
+appRouter.use('/', authRoute);
+appRouter.use('/post', postRoute);
+appRouter.use('/communities', communityRoute);
 
-export default router;
-
+export default appRouter;
