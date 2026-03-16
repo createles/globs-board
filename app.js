@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from 'node:url';
 import "dotenv/config";
 import connectPgSimple from 'connect-pg-simple';
-import { Pool } from 'pg';
+import pool from './db/pool';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +20,22 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+const pgSession = connectPgSimple(session);
+
+// session middleware to handle storing session cookies in db
+app.use(session({
+  store: new pgSession({
+    pool: pool, // use our pool connection
+    tableName: 'session' // use 'session' table to store cookies
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000
+  }
+}))
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
