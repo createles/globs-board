@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from 'node:url';
 import "dotenv/config";
 import connectPgSimple from 'connect-pg-simple';
-import pool from './db/pool';
+import pool from './db/pool.js';
 import appRouter from './routes/appRouter.js';
 
 const __filename = fileURLToPath(import.meta.url);
