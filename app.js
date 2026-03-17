@@ -6,6 +6,7 @@ import "dotenv/config";
 import connectPgSimple from 'connect-pg-simple';
 import pool from './db/pool.js';
 import appRouter from './routes/appRouter.js';
+import passport from './config/passport.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +39,10 @@ app.use(session({
     maxAge: 30 * 24 * 60 * 60 * 1000
   }
 }))
+
+// Initialize passport, use session to manage state
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', appRouter);
 
