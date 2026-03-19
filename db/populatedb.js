@@ -21,6 +21,15 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+  "sess" json NOT NULL,
+  "expire" timestamp(6) NOT NULL,
+  CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE
+) WITH (OIDS=FALSE);
+
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
+
 CREATE TABLE IF NOT EXISTS communities (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   community_name VARCHAR ( 255 ) UNIQUE NOT NULL,
