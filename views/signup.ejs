@@ -1,3 +1,29 @@
 <%- include('partials/header.ejs') %>
 
+  <div class="form-container">
+    <form action="/signup" method="post">
+      <label for="sign-up-fname">
+        First Name
+        <input type="text" id="sign-up-fname" name="firstName">
+      </label>
+      <label for="sign-up-lname">
+        Last Name
+        <input type="text" id="sign-up-lname" name="lastName">
+      </label>
+      <label for="sign-up-uname">
+        Username
+        <input type="text" id="sign-up-uname" name="username">
+      </label>
+      <label for="sign-up-pwd">
+        Password
+        <input type="password" id="sign-up-pwd" name="password">
+      </label>
+      <label for="sign-up-pwdConfirm">
+        Confirm Password
+        <input type="password" id="sign-up-pwdConfirm" name="passwordConfirm">
+      </label>
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+
 <%- include('partials/footer.ejs') %>
