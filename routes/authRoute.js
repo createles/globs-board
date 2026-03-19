@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { signUpPost } from "../controllers/authController.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -16,5 +17,13 @@ router.post("/signup", signUpPost);
 router.get("/login", (req, res) => {
   res.render("login", { title: "Globs - Log In"});
 })
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/dashboard",
+    failureRedirect: "/login",
+  }),
+);
 
 export default router;

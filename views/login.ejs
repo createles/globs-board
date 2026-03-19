@@ -1,3 +1,17 @@
 <%- include('partials/header.ejs') %>
-<p>login page</p>
+
+  <div class="login-container">
+    <form action="/login" method="post">
+      <label for="login-username">
+        Username
+        <input type="text" id="login-username" name="username">
+      </label>
+      <label for="login-password">
+        Password
+        <input type="password" id="login-password" name="password">
+      </label>
+      <button type="submit">Log in</button>
+    </form>
+  </div>
+
 <%- include('partials/footer.ejs') %>
