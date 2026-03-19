@@ -1,9 +1,20 @@
 import { Router } from "express";
+import { signUpPost } from "../controllers/authController.js";
 
 const router = Router();
 
 router.get("/", (req, res) => {
   res.send("This route is wired up correctly!");
 });
+
+router.get("/signup", (req, res) => {
+  res.render("signup", { title: "Globs - Sign Up"});
+})
+
+router.post("/signup", signUpPost);
+
+router.get("/login", (req, res) => {
+  res.render("login", { title: "Globs - Log In"});
+})
 
 export default router;
