@@ -44,6 +44,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Intercept all routes, look at req.user, grab user info
+// and pin it to res.locals.currentUser
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user; 
+  next();
+});
+
 app.use('/', appRouter);
 
 app.listen(PORT, () => {
