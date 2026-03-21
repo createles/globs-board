@@ -4,10 +4,6 @@ import passport from "passport";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("This route is wired up correctly!");
-});
-
 router.get("/signup", (req, res) => {
   res.render("signup", { title: "Globs - Sign Up"});
 })
