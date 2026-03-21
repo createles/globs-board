@@ -8,4 +8,11 @@
 <body>
     <header>
         <p>header placeholder</p>
+        <% if (currentUser) { %>
+            <form action="/logout" method="POST">
+                <button type="submit">Log Out</button>
+            </form>
+        <% } else { %>
+            <a href="/login">Log in</a>
+        <% } %>
     </header>
