@@ -1,6 +1,17 @@
 <%- include('partials/header.ejs') %>
   <div class="new-post-container">
     <form action="/new-post" method="POST" class="new-post-form">
+      <label for="new-post-community">
+        <select name="communityId" id="new-post-community">
+          <option value="" disabled selected>Select a community...</option>
+        
+          <% communities.forEach(community=> { %>
+            <option value="<%= community.id %>">
+              <%= community.name %>
+            </option>
+            <% }) %>
+        </select>
+      </label>
       <label for="new-post-title">
         <input type="text" name="title" id="new-post-title">
       </label>
