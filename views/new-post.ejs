@@ -1,3 +1,14 @@
 <%- include('partials/header.ejs') %>
+  <div class="new-post-container">
+    <form action="/new-post" method="POST" class="new-post-form">
+      <label for="new-post-title">
+        <input type="text" name="title" id="new-post-title">
+      </label>
+      <label for="new-post-body">
+        <textarea name="body" id="new-post-body"></textarea>
+      </label>
 
+      <button type="submit">Create Post</button>
+    </form>
+  </div>
 <%- include('partials/footer.ejs') %>
