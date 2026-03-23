@@ -1,5 +1,5 @@
 import { response } from "express";
-import pool from "pool.js";
+import pool from "./pool.js";
 
 export async function getAllCommunities() {
   const result = await pool.query(
