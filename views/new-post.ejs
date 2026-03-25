@@ -2,7 +2,7 @@
   <div class="new-post-container">
     <form action="/post/new" method="POST" class="new-post-form">
       <label for="new-post-community">
-        <select name="communityId" id="new-post-community">
+        <select name="communityId" id="new-post-community" required>
           <option value="" disabled selected>Select a community...</option>
         
           <% communities.forEach(community=> { %>
@@ -13,10 +13,10 @@
         </select>
       </label>
       <label for="new-post-title">
-        <input type="text" name="title" id="new-post-title">
+        <input type="text" name="title" id="new-post-title" required>
       </label>
       <label for="new-post-body">
-        <textarea name="body" id="new-post-body"></textarea>
+        <textarea name="body" id="new-post-body" required></textarea>
       </label>
 
       <button type="submit">Create Post</button>
