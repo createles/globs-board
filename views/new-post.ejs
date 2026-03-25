@@ -1,25 +1,65 @@
 <%- include('partials/header.ejs') %>
-  <div class="new-post-container">
-    <form action="/post/new" method="POST" class="new-post-form">
-      <label for="new-post-community">
-        <select name="communityId" id="new-post-community" required>
-          <option value="" disabled selected>Select a community...</option>
-        
-          <% communities.forEach(community=> { %>
-            <option value="<%= community.id %>">
-              <%= community.community_name %>
-            </option>
-            <% }) %>
-        </select>
-      </label>
-      <label for="new-post-title">
-        <input type="text" name="title" id="new-post-title" required>
-      </label>
-      <label for="new-post-body">
-        <textarea name="body" id="new-post-body" required></textarea>
-      </label>
 
-      <button type="submit">Create Post</button>
-    </form>
-  </div>
-<%- include('partials/footer.ejs') %>
+  <% if (locals.errorMessages && errorMessages.length> 0) { %>
+    <div id="toast-container" class="toast-container">
+      <% errorMessages.forEach(msg=> { %>
+        <div class="toast">
+          <span class="toast-icon">⚠️</span>
+          <p class="toast-msg">
+            <%= msg %>
+          </p>
+          <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+        </div>
+        <% }) %>
+    </div>
+    <% } %>
+
+      <div class="new-post-container">
+        <form action="/post/new" method="POST" class="new-post-form">
+          <label for="new-post-community">
+            <select name="communityId" id="new-post-community" required>
+              <option value="" disabled <%=!locals.previousInput ? 'selected' : '' %>>Select a community...</option>
+
+              <% communities.forEach(community=> { %>
+                <option value="<%= community.id %>" <%=locals.previousInput && previousInput.communityId==community.id
+                  ? 'selected' : '' %>
+                  >
+                  <%= community.community_name %>
+                </option>
+                <% }) %>
+            </select>
+          </label>
+          <label for="new-post-title">
+            <input type="text" name="title" id="new-post-title"
+              value="<%= locals.previousInput ? previousInput.title : '' %>" required>
+          </label>
+          <label for="new-post-body">
+            <textarea name="body" id="new-post-body"
+              required><%= locals.previousInput ? previousInput.body : '' %></textarea>
+          </label>
+
+          <button type="submit">Create Post</button>
+        </form>
+      </div>
+
+      <script>
+    // AUTO-DISMISS LOGIC
+    document.addEventListener("DOMContentLoaded", () => {
+      const toasts = document.querySelectorAll('.toast');
+      
+      toasts.forEach((toast, index) => {
+        // Wait 5 seconds, then fade out
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          
+          // Wait for the fade-out CSS transition to finish (0.4s), then remove from DOM
+          setTimeout(() => {
+            toast.remove();
+          }, 400); 
+          
+        // Add a slight stagger if there are multiple errors (index * 200ms)
+        }, 5000 + (index * 200)); 
+      });
+    });
+  </script>
+      <%- include('partials/footer.ejs') %>
