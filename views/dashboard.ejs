@@ -20,11 +20,15 @@
           <article class="post-card">
             
             <div class="post-meta">
-              <span class="community-name">g/<%= post.community_name %></span>
+              <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none;">
+                g/<%= post.community_name %>
+              </a>
               <span class="divider">•</span>
               <span class="author">Posted by <%= post.author_name %></span>
               <span class="divider">•</span>
-              <span class="date"><%= new Date(post.created_at).toLocaleDateString() %></span>
+              <span class="date">
+                <%= new Date(post.created_at).toLocaleDateString() %>
+              </span>
             </div>
             
             <h4 class="post-title"><%= post.title %></h4>
