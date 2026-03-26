@@ -1,3 +1,47 @@
 <%- include('partials/header.ejs') %>
-<p>Welcome <%= currentUser.first_name %> </p>
+
+<div class="dashboard-container">
+  
+  <section class="user-profile-card">
+    <div class="user-info">
+      <h2>Welcome back, <%= currentUser.first_name %>!</h2>
+      <p class="handle">@<%= currentUser.username %></p>
+    </div>
+    <a href="/post/new" class="btn-primary">Create New Post</a>
+  </section>
+
+  <section class="timeline-section">
+    <h3>Global Feed</h3>
+
+    <% if (posts && posts.length > 0) { %>
+      <div class="feed-container">
+        
+        <% posts.forEach(post => { %>
+          <article class="post-card">
+            
+            <div class="post-meta">
+              <span class="community-name">g/<%= post.community_name %></span>
+              <span class="divider">•</span>
+              <span class="author">Posted by <%= post.author_name %></span>
+              <span class="divider">•</span>
+              <span class="date"><%= new Date(post.created_at).toLocaleDateString() %></span>
+            </div>
+            
+            <h4 class="post-title"><%= post.title %></h4>
+            
+            <p class="post-body"><%= post.body %></p>
+            
+          </article>
+        <% }) %>
+        
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <p>It's quiet in here... Be the first to say hello!</p>
+      </div>
+    <% } %>
+    
+  </section>
+</div>
+
 <%- include('partials/footer.ejs') %>
