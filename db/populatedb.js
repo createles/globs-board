@@ -32,7 +32,7 @@ CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 
 CREATE TABLE IF NOT EXISTS communities (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  community_name VARCHAR ( 255 ) UNIQUE NOT NULL,
+  community_name VARCHAR ( 255 ) UNIQUE NOT NULL CHECK (community_name NOT LIKE '% %'),
   community_description TEXT NOT NULL,
   community_secret VARCHAR ( 255 ) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -62,9 +62,9 @@ INSERT INTO users (username, first_name, last_name, hashed_password, icon) VALUE
   ('baker_bob', 'Bob', 'Ross', 'dummyhash123', 3);
 
 INSERT INTO communities (community_name, community_description, community_secret) VALUES
-  ('PC Gaming & Hardware', 'Discuss rigs, monitors, and games.', 'secret1'),
-  ('Japanese Language Study', 'Practice grammar and kanji.', 'secret2'),
-  ('Home Baking', 'Share recipes and tips.', 'secret3');
+  ('PCGamingHardware', 'Discuss rigs, monitors, and games.', 'secret1'),
+  ('JapaneseLanguage', 'Practice grammar and kanji.', 'secret2'),
+  ('HomeBaking', 'Share recipes and tips.', 'secret3');
 
 INSERT INTO community_memberships (user_id, community_id, role) VALUES
   (1, 1, 'admin'),
