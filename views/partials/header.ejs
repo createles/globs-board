@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <title><%= title %></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= locals.title ? title : 'Globs' %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <header>
-        <p>header placeholder</p>
-        <% if (currentUser) { %>
-            <form action="/logout" method="POST">
-                <button type="submit">Log Out</button>
-            </form>
-        <% } else { %>
-            <a href="/login">Log in</a>
-        <% } %>
-    </header>
+
+  <div class="glob-container">
+    <div class="glob glob-1"></div>
+    <div class="glob glob-2"></div>
+    <div class="glob glob-3"></div>
+  </div>
+
+  <nav class="top-nav">
+    <a href="<%= locals.currentUser ? '/dashboard' : '/' %>" class="nav-logo">
+      <span class="material-symbols-outlined nav-logo-icon" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+      Globs
+    </a>
+    
+    <div class="nav-links">
+      <% if (locals.currentUser) { %>
+        <a href="/dashboard" class="nav-item">
+          <span class="material-symbols-outlined nav-icon">home</span> Feed
+        </a>
+        <a href="/post/new" class="nav-item">
+          <span class="material-symbols-outlined nav-icon">add_circle</span> Post
+        </a>
+        <form action="/logout" method="POST">
+            <button class="nav-item" type="submit" style="background: none; border: none; font-family: 'Manrope', sans-serif; padding: 0; ">
+              <span class="material-symbols-outlined nav-icon">logout</span> Leave
+            </button>
+        </form>
+      <% } else { %>
+        <a href="/login" class="nav-item">Log In</a>
+        <a href="/signup" class="btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">Join</a>
+      <% } %>
+    </div>
+  </nav>
