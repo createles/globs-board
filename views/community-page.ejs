@@ -1,3 +1,43 @@
 <%- include('partials/header.ejs') %>
 
+<div class="dashboard-container">
+  
+  <section class="user-profile-card">
+    <div class="user-info">
+      <h2>g/<%= community.community_name %></h2>
+      <p class="handle"><%= community.community_description %></p>
+    </div>
+    
+    <button class="btn-secondary" disabled>Join (Coming Soon)</button>
+  </section>
+
+  <section class="timeline-section">
+    <h3>Community Posts</h3>
+
+    <% if (posts && posts.length > 0) { %>
+      <div class="feed-container">
+        <% posts.forEach(post => { %>
+          <article class="post-card">
+            
+            <div class="post-meta">
+              <span class="author">Posted by <%= post.author_name %></span>
+              <span class="divider">•</span>
+              <span class="date"><%= new Date(post.created_at).toLocaleDateString() %></span>
+            </div>
+            
+            <h4 class="post-title"><%= post.title %></h4>
+            <p class="post-body"><%= post.body %></p>
+            
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <p>No posts in this community yet. Be the first!</p>
+      </div>
+    <% } %>
+    
+  </section>
+</div>
+
 <%- include('partials/footer.ejs') %>
