@@ -10,6 +10,6 @@ const appRouter = Router();
 appRouter.use('/', indexRoute);
 appRouter.use('/', authRoute);
 appRouter.use('/post', postRoute);
-appRouter.use('/communities', communityRoute);
+appRouter.use('/g', communityRoute);
 
 export default appRouter;
