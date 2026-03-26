@@ -27,6 +27,7 @@ export async function getAllPosts() {
        posts.title, 
        posts.body, 
        posts.created_at,
+       posts.user_id,
        users.username AS author_name,
        communities.community_name
      FROM posts
@@ -57,6 +58,7 @@ export async function getPostsByCommunityId(communityId) {
        posts.title, 
        posts.body, 
        posts.created_at,
+       posts.user_id,
        users.username AS author_name,
        communities.community_name
      FROM posts
@@ -70,4 +72,36 @@ export async function getPostsByCommunityId(communityId) {
   );
 
   return result.rows;
+}
+
+// Check if a user is currently a member of a community
+export async function checkMembership(userId, communityId) {
+  const result = await pool.query(
+    `SELECT * FROM community_memberships 
+     WHERE user_id = $1 AND community_id = $2;`,
+    [userId, communityId]
+  );
+  
+  // Returns the membership row if it exists, or undefined if they haven't joined
+  return result.rows[0]; 
+}
+
+// Add the user to the community
+// ON CONFLICT DO NOTHING will ignore duplicated requests (user already joined community)
+export async function joinCommunity(userId, communityId) {
+  await pool.query(
+    `INSERT INTO community_memberships (user_id, community_id, role)
+     VALUES ($1, $2, 'standard')
+     ON CONFLICT DO NOTHING;`, 
+    [userId, communityId]
+  );
+}
+
+// Delete post
+export async function deletePost(postId, userId) {
+  // Only deletes rows for posts that match the correct user_id in the posts table
+  await pool.query(
+    `DELETE FROM posts WHERE id = $1 AND user_id = $2;`,
+    [postId, userId]
+  );
 }
