@@ -60,3 +60,26 @@ export const newPostPost = async (req, res, next) => {
     }
   }
 }
+
+export const postDeletePost = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const userId = req.user.id; 
+
+    // Securely delete the post
+    await db.deletePost(postId, userId);
+
+    // Grab the URL the user came from (if the browser sent it)
+    const previousPage = req.header('Referer');
+
+    // If we have the previous page, go there. Otherwise, default to the dashboard
+    if (previousPage) {
+      res.redirect(previousPage);
+    } else {
+      res.redirect("/dashboard");
+    }
+
+  } catch (err) {
+    next(err);
+  }
+};

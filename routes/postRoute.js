@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuth } from "../middleware/authMiddleware.js";
-import { newPostGet, newPostPost } from "../controllers/postController.js";
+import { newPostGet, newPostPost, postDeletePost } from "../controllers/postController.js";
 import { body } from "express-validator"
 
 const router = Router();
@@ -18,5 +18,8 @@ router.get("/", (req, res) => {
 
 router.get("/new", isAuth, newPostGet);
 router.post("/new", isAuth, validatePost, newPostPost);
+
+// Post deletion route
+router.post("/:postId/delete", isAuth, postDeletePost);
 
 export default router;
