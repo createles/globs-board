@@ -1,4 +1,240 @@
-/* Position the container fixed at the top right */
+/* =========================================
+   GLOBS: THE SUBMERGED FLUID DESIGN SYSTEM
+   ========================================= */
+
+:root {
+  /* The Palette */
+  --bg: #0e0e12;
+  --surface-low: #18181f; /* For post cards and panels */
+  --surface-high: #25252d; /* For 'Drip' input fields */
+  --primary: #2e5bff;
+  --primary-glow: rgba(46, 91, 255, 0.25);
+  --secondary: #c8bfff;
+  --tertiary: #a1faff;
+  --text-main: #e7e4ee;
+  --text-muted: #abaab4;
+  --danger: #ff4d4f;
+  --danger-glow: rgba(255, 77, 79, 0.15); /* Soft neon red glow for errors */
+}
+
+/* Base Resets & Typography */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text-main);
+  font-family: 'Manrope', sans-serif;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: #ffffff;
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--tertiary);
+}
+
+/* =========================================
+   LAYOUT CONTAINERS
+   ========================================= */
+.dashboard-container,
+.new-post-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* =========================================
+   COMPONENTS (Applying the No-Line Rule)
+   ========================================= */
+
+/* User / Community Banners */
+.user-profile-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--surface-low);
+  padding: 1.5rem 2rem;
+  border-radius: 2rem; /* Intentional heavy rounding */
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.handle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* The Timeline */
+.timeline-section h3 {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+/* Post Cards */
+.post-card {
+  background-color: var(--surface-low);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.post-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.community-name {
+  color: var(--tertiary);
+  font-weight: 600;
+}
+
+.divider {
+  margin: 0 0.5rem;
+  opacity: 0.5;
+}
+
+.post-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-body {
+  color: var(--text-main);
+  white-space: pre-wrap;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Empty States (No Posts) */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--surface-low);
+  border-radius: 1.5rem;
+  color: var(--text-muted);
+  box-shadow: inset 0 4px 24px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   BUTTONS & INPUTS ("Drip" Styling)
+   ========================================= */
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #5a49bc);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px; /* Pill shape */
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--primary-glow);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(46, 91, 255, 0.5);
+  transform: scale(1.02);
+}
+
+.btn-secondary {
+  background-color: var(--surface-high);
+  color: var(--text-main);
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #32323d;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  background-color: var(--surface-high);
+  color: var(--text-main);
+  border: 2px solid transparent; 
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  background-color: #2b2b34;
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* =========================================
+   TOAST NOTIFICATIONS (Liquid Ink Style)
+   ========================================= */
+
 .toast-container {
   position: fixed;
   top: 20px;
@@ -6,168 +242,166 @@
   z-index: 9999;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* Style the individual notification cards */
 .toast {
-  background-color: #ff4d4f;
-  /* A nice error red */
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--surface-high);
+  color: var(--text-main);
+  padding: 16px 24px;
+  border-radius: 1rem;
+  border-left: 4px solid var(--danger);
+  box-shadow: 0 8px 32px var(--danger-glow), 0 4px 12px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: sans-serif;
-  animation: slideIn 0.3s ease-out forwards;
+  gap: 16px;
+  font-family: 'Manrope', sans-serif;
+  animation: slideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   opacity: 1;
   transition: opacity 0.4s ease;
-  /* For the fade out */
 }
 
-.toast-msg {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.4;
+.toast-msg { 
+  margin: 0; 
+  font-size: 0.95rem; 
+  line-height: 1.4; 
+  font-weight: 500;
+}
+
+.toast-icon {
+  font-size: 1.2rem;
 }
 
 .toast-close {
   background: none;
   border: none;
-  color: white;
-  font-size: 18px;
+  color: var(--text-muted);
+  font-size: 20px;
   cursor: pointer;
   margin-left: auto;
-  /* Pushes the 'X' to the far right */
   padding: 0;
+  transition: color 0.2s;
 }
 
-/* A simple slide-in animation */
+.toast-close:hover {
+  color: var(--text-main);
+}
+
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
-/* DASHBOARD STYLING */
-.dashboard-container {
-  max-width: 700px;
-  margin: 2rem auto;
-  font-family: system-ui, -apple-system, sans-serif;
-  padding: 0 1rem;
+/* =========================================
+   BACKGROUND GLOBS (The Fluid)
+   ========================================= */
+.glob-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1; /* Keeps it behind all your content */
+  pointer-events: none; /* Prevents the globs from blocking clicks */
 }
 
-/* User Header Styles */
-.user-profile-card {
+.glob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px); /* The heavy blur creates the liquid light effect */
+  opacity: 0.35;
+  animation: float 20s infinite alternate ease-in-out;
+}
+
+.glob-1 {
+  top: -10%; right: -5%; 
+  width: 40vw; height: 40vw;
+  background: var(--primary);
+}
+
+.glob-2 {
+  bottom: -15%; left: -10%; 
+  width: 50vw; height: 50vw;
+  background: #5a49bc;
+  animation-duration: 25s;
+}
+
+.glob-3 {
+  top: 40%; left: 60%; 
+  width: 30vw; height: 30vw;
+  background: var(--tertiary);
+  opacity: 0.15;
+  animation-duration: 30s;
+}
+
+/* Subtle breathing animation for the background */
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 40px) scale(1.1); }
+}
+
+/* =========================================
+   TOP NAVIGATION
+   ========================================= */
+.top-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  border: 1px solid #e9ecef;
+  padding: 1.5rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.user-info h2 {
-  margin: 0 0 0.25rem 0;
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.5rem;
-  color: #212529;
-}
-
-.handle {
-  margin: 0;
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-.btn-primary {
-  background-color: #0d6efd;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
-
-.btn-primary:hover {
-  background-color: #0b5ed7;
-}
-
-/* Feed Styles */
-.timeline-section h3 {
-  margin-bottom: 1rem;
-  color: #495057;
-  border-bottom: 2px solid #e9ecef;
-  padding-bottom: 0.5rem;
-}
-
-.post-card {
-  background: white;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-}
-
-.post-meta {
-  font-size: 0.85rem;
-  color: #6c757d;
-  margin-bottom: 0.75rem;
+  font-weight: 800;
+  color: #fff;
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  letter-spacing: -0.03em;
+}
+
+.nav-logo-icon {
+  color: var(--tertiary);
+  filter: drop-shadow(0 0 8px rgba(161, 250, 255, 0.4));
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
   align-items: center;
 }
 
-.community-name {
-  font-weight: 700;
-  color: #212529;
+.nav-item {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s, transform 0.2s;
 }
 
-.divider {
-  margin: 0 0.5rem;
-  color: #ced4da;
+.nav-item:hover {
+  color: var(--text-main);
+  transform: translateY(-1px);
 }
 
-.post-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
-  color: #212529;
+.nav-icon {
+  font-size: 1.25rem;
+  opacity: 0.8;
 }
 
-.post-body {
-  margin: 0;
-  color: #495057;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  /* Crucial for displaying textareas properly! */
-}
-
-.empty-state {
+/* =========================================
+   FOOTER
+   ========================================= */
+.site-footer {
   text-align: center;
-  padding: 3rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  color: #6c757d;
-}
-
-/* COMMUNITY PAGE STYLING */
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  font-weight: 500;
-  cursor: not-allowed;
-  opacity: 0.7;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  opacity: 0.6;
 }
