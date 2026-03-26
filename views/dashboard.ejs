@@ -35,6 +35,20 @@
             
             <p class="post-body"><%= post.body %></p>
             
+            <!-- Delete button conditionally appears -->
+            <% if (locals.currentUser && currentUser.id===post.user_id) { %>
+            
+              <div class="post-actions" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 0.5rem;">
+                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0;">
+                  <button type="submit"
+                    style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 0.9rem; padding: 0;">
+                    🗑️ Delete Post
+                  </button>
+                </form>
+              </div>
+            
+            <% } %>
+            
           </article>
         <% }) %>
         
