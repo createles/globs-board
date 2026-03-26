@@ -1,40 +1,59 @@
 <%- include('partials/header.ejs') %>
 
-  <div class="form-container">
-    <form action="/signup" method="post">
-      <label for="sign-up-fname">
-        First Name
-        <input type="text" id="sign-up-fname" name="firstName">
-      </label>
-      <label for="sign-up-lname">
-        Last Name
-        <input type="text" id="sign-up-lname" name="lastName">
-      </label>
-      <label for="sign-up-uname">
-        Username
-        <input type="text" id="sign-up-uname" name="username">
-      </label>
-      <label for="sign-up-pwd">
-        Password
-        <input type="password" id="sign-up-pwd" name="password">
-      </label>
-      <label for="sign-up-pwdConfirm">
-        Confirm Password
-        <input type="password" id="sign-up-pwdConfirm" name="passwordConfirm">
-      </label>
-      <label for="sign-up-icon">
-        Icon
-        <select name="icon" id="sign-up-icon">
-          <option value="1">Cat</option>
-          <option value="2">Dog</option>
-          <option value="3">Hippo</option>
-          <option value="4">Bunny</option>
-          <option value="5">Panda</option>
-          <option value="6">Alien</option>
-        </select>
-      </label>
-      <button type="submit">Sign up</button>
-    </form>
+<% if (locals.errorMessages && errorMessages.length > 0) { %>
+  <div id="toast-container" class="toast-container">
+    <% errorMessages.forEach(msg => { %>
+      <div class="toast">
+        <span class="toast-icon">⚠️</span>
+        <p class="toast-msg"><%= msg %></p>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    <% }) %>
   </div>
+<% } %>
+
+<div class="auth-wrapper" style="max-width: 500px; margin: 3rem auto; padding: 0 1rem;">
+  
+  <div class="auth-card" style="background-color: var(--surface-low); padding: 2.5rem; border-radius: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+    
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Join the Collective</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin: 0;">Claim your space in the fluid underground.</p>
+    </div>
+
+    <form action="/signup" method="POST">
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div>
+          <label for="first_name">First Name</label>
+          <input type="text" name="first_name" id="first_name" required placeholder="Alex" value="<%= locals.previousInput ? previousInput.first_name : '' %>">
+        </div>
+        <div>
+          <label for="last_name">Last Name</label>
+          <input type="text" name="last_name" id="last_name" required placeholder="Hardware" value="<%= locals.previousInput ? previousInput.last_name : '' %>">
+        </div>
+      </div>
+
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required placeholder="Choose a unique handle" value="<%= locals.previousInput ? previousInput.username : '' %>">
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required placeholder="Make it secure">
+
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" name="confirm_password" id="confirm_password" required placeholder="Type it one more time">
+
+      <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;">
+        Create Account
+      </button>
+    </form>
+
+    <p style="text-align: center; margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+      Already a member? <br>
+      <a href="/login" style="color: var(--primary); font-weight: 600;">Log in here.</a>
+    </p>
+
+  </div>
+</div>
 
 <%- include('partials/footer.ejs') %>

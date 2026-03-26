@@ -1,17 +1,42 @@
 <%- include('partials/header.ejs') %>
 
-  <div class="login-container">
-    <form action="/login" method="post">
-      <label for="login-username">
-        Username
-        <input type="text" id="login-username" name="username">
-      </label>
-      <label for="login-password">
-        Password
-        <input type="password" id="login-password" name="password">
-      </label>
-      <button type="submit">Log in</button>
-    </form>
+<% if (locals.errorMessages && errorMessages.length > 0) { %>
+  <div id="toast-container" class="toast-container">
+    <% errorMessages.forEach(msg => { %>
+      <div class="toast">
+        <span class="toast-icon">⚠️</span>
+        <p class="toast-msg"><%= msg %></p>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    <% }) %>
   </div>
+<% } %>
+
+<div class="auth-wrapper" style="max-width: 400px; margin: 4rem auto; padding: 0 1rem;">
+  
+  <div class="auth-card" style="background-color: var(--surface-low); padding: 2.5rem 2rem; border-radius: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4); text-align: center;">
+    
+    <h1 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--tertiary);">Globs</h1>
+    <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.95rem;">Welcome back to the underground.</p>
+
+    <form action="/login" method="POST" style="text-align: left;">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required autofocus placeholder="Enter your handle">
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required placeholder="Enter your password">
+
+      <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem; padding: 1rem;">
+        Enter the Void
+      </button>
+    </form>
+
+    <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+      Don't have an account? <br>
+      <a href="/signup" style="color: var(--tertiary); font-weight: 600;">Join the collective.</a>
+    </p>
+
+  </div>
+</div>
 
 <%- include('partials/footer.ejs') %>
