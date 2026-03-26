@@ -39,3 +39,35 @@ export async function getAllPosts() {
 
   return result.rows;
 }
+
+export async function getCommunityByName(communityName) {
+  const result = await pool.query(
+    `SELECT * FROM communities WHERE community_name = $1;`,
+    [communityName]
+  );
+  
+  // Returns just the single community object, or undefined if it doesn't exist
+  return result.rows[0];
+}
+
+export async function getPostsByCommunityId(communityId) {
+  const result = await pool.query(
+    `SELECT 
+       posts.id, 
+       posts.title, 
+       posts.body, 
+       posts.created_at,
+       users.username AS author_name,
+       communities.community_name
+     FROM posts
+     JOIN users 
+       ON posts.user_id = users.id
+     JOIN communities 
+       ON posts.community_id = communities.id
+     WHERE posts.community_id = $1
+     ORDER BY posts.created_at DESC;`,
+    [communityId]
+  );
+
+  return result.rows;
+}
