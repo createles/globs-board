@@ -1,3 +1,67 @@
 <%- include('partials/header.ejs') %>
-    <p>splash page</p>
+
+<main class="dashboard-container" style="text-align: center; margin-top: 5rem; margin-bottom: 5rem;">
+  
+  <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+    <span class="material-symbols-outlined" style="font-size: 4rem; color: var(--tertiary); filter: drop-shadow(0 0 20px rgba(161, 250, 255, 0.4)); font-variation-settings: 'FILL' 1;">water_drop</span>
+  </div>
+
+  <h1 style="font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--text-main); line-height: 1.1; letter-spacing: -0.03em;">
+    Drip into the <br> <span style="color: var(--primary); font-size: 2.5rem;">blips and blops of thought.</span>
+  </h1>
+  
+  <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 3rem auto; line-height: 1.6;">
+    Connect, share, and flow with the current in a space designed for uninterrupted thought. No noise, just a stream.
+  </p>
+  
+  <div style="display: flex; gap: 1rem; justify-content: center;">
+    <a href="/signup" class="btn-primary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">Step into the Glob</a>
+    <a href="/login" class="btn-secondary" style="font-size: 1.1rem; padding: 0.85rem 2rem;">Log In</a>
+  </div>
+</main>
+
+<section class="dashboard-container">
+  <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+    <div style="height: 1px; background: var(--surface-high); flex-grow: 1;"></div>
+    <h3 style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">
+      Most current blops
+    </h3>
+    <div style="height: 1px; background: var(--surface-high); flex-grow: 1;"></div>
+  </div>
+
+  <% if (posts && posts.length > 0) { %>
+    <div class="feed-container">
+      <% posts.forEach(post => { %>
+        <article class="post-card" style="opacity: 0.85; transform: scale(0.98);">
+          
+          <div class="post-meta">
+            <span class="community-name">g/<%= post.community_name %></span>
+            <span class="divider">•</span>
+            <span class="author">Posted by <%= post.author_name %></span>
+          </div>
+          
+          <h4 class="post-title"><%= post.title %></h4>
+          
+          <p class="post-body" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            <%= post.body %>
+          </p>
+          
+        </article>
+      <% }) %>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem; margin-bottom: 4rem;">
+      <a href="/signup" class="btn-primary" style="background: transparent; border: 2px solid var(--primary); box-shadow: none;">
+        Create an account to see more &rarr;
+      </a>
+    </div>
+
+  <% } else { %>
+    <div class="empty-state">
+      <p>The fluid is still. Be the first to make a ripple.</p>
+    </div>
+  <% } %>
+
+</section>
+
 <%- include('partials/footer.ejs') %>
