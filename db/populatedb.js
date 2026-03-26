@@ -55,6 +55,28 @@ CREATE TABLE IF NOT EXISTS community_memberships (
   joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(user_id, community_id)
 );
+
+INSERT INTO users (username, first_name, last_name, hashed_password, icon) VALUES
+  ('pc_builder_99', 'Alex', 'Hardware', 'dummyhash123', 1),
+  ('kanji_learner', 'Sarah', 'Connor', 'dummyhash123', 2),
+  ('baker_bob', 'Bob', 'Ross', 'dummyhash123', 3);
+
+INSERT INTO communities (community_name, community_description, community_secret) VALUES
+  ('PC Gaming & Hardware', 'Discuss rigs, monitors, and games.', 'secret1'),
+  ('Japanese Language Study', 'Practice grammar and kanji.', 'secret2'),
+  ('Home Baking', 'Share recipes and tips.', 'secret3');
+
+INSERT INTO community_memberships (user_id, community_id, role) VALUES
+  (1, 1, 'admin'),
+  (2, 2, 'admin'),
+  (3, 3, 'admin'),
+  (1, 2, 'standard'); -- User 1 is in two communities!
+
+INSERT INTO posts (title, body, user_id, community_id) VALUES
+  ('Best HDR settings for KTC M27T6?', 'I just picked up this monitor and want to get the colors right for gaming. Any calibration tips?', 1, 1),
+  ('Struggling with N4 Kanji', 'Does anyone have a good strategy for remembering readings? Flashcards help, but I still get confused.', 2, 2),
+  ('Overnight Cinnamon Rolls', 'Can I leave the dough in the fridge overnight for the second proof? I want to bake them fresh in the morning.', 3, 3),
+  ('What games are you currently playing?', 'I need some new PC game recommendations!', 1, 1);
 `
 
 async function main() {
