@@ -39,6 +39,15 @@
               <span class="author">Posted by <%= post.author_name %></span>
               <span class="divider">•</span>
               <span class="date"><%= new Date(post.created_at).toLocaleDateString() %></span>
+
+              <!-- User Avatar -->
+              <div
+                style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+                <div style="width: 16px; height: 16px;">
+                  <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                </div>
+              </div>
+            
             </div>
             
             <h4 class="post-title"><%= post.title %></h4>
@@ -47,11 +56,11 @@
             <!-- Delete button conditionally appears -->
             <% if (locals.currentUser && currentUser.id===post.user_id) { %>
             
-              <div class="post-actions" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 0.5rem;">
-                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0;">
+              <div class="post-actions" style="margin-top: 1rem; padding-top: 0.5rem;">
+                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0; display: flex;">
                   <button type="submit"
-                    style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 0.9rem; padding: 0;">
-                    🗑️ Delete Post
+                    style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; padding: 0; margin-left: auto;">
+                    Delete Post
                   </button>
                 </form>
               </div>
