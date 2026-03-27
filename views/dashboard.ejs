@@ -1,85 +1,107 @@
 <%- include('partials/header.ejs') %>
 
-<div class="dashboard-container">
-  
-<section class="user-profile-card">
-    <div style="display: flex; align-items: center; gap: 1.5rem;">
-      <!-- Avatar Icon -->
-      <div style="width: 64px; height: 64px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--tertiary); box-shadow: 0 0 20px rgba(161, 250, 255, 0.15); flex-shrink: 0;">
-        <div style="width: 36px; height: 36px;">
-          <%- include('partials/avatar.ejs', { id: currentUser.icon }) %>
+  <div class="dashboard-container">
+
+    <section class="user-profile-card">
+      <div style="display: flex; align-items: center; gap: 1.5rem;">
+        <!-- Avatar Icon -->
+        <div
+          style="width: 64px; height: 64px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--tertiary); box-shadow: 0 0 20px rgba(161, 250, 255, 0.15); flex-shrink: 0;">
+          <div style="width: 36px; height: 36px;">
+            <%- include('partials/avatar.ejs', { id: currentUser.icon }) %>
+          </div>
         </div>
+        <!-- User name -->
+        <div class="user-info">
+          <h2>Hey, <%= currentUser.first_name %>!</h2>
+          <p class="handle">@<%= currentUser.username %>
+          </p>
+        </div>
+
       </div>
-      <!-- User name -->
-      <div class="user-info">
-        <h2>Hey, <%= currentUser.first_name %>!</h2>
-        <p class="handle">@<%= currentUser.username %></p>
+
+      <a href="/post/new" class="btn-primary">Create New Post</a>
+    </section>
+
+    <section class="timeline-section">
+      <!-- Tabs for feed -->
+      <div
+        style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; padding-left: 0.5rem;">
+
+        <a href="/dashboard"
+          style="text-decoration: none; font-size: 0.95rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; padding-bottom: 0.5rem; margin-bottom: -0.65rem; color: <%= currentFeed === 'global' ? 'var(--primary)' : 'var(--text-muted)' %>; border-bottom: <%= currentFeed === 'global' ? '2px solid var(--primary)' : 'none' %>;">
+          All Globs
+        </a>
+
+        <% if (locals.currentUser) { %>
+          <a href="/dashboard?feed=followed"
+            style="text-decoration: none; font-size: 0.95rem; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; transition: color 0.2s; padding-bottom: 0.5rem; margin-bottom: -0.65rem; color: <%= currentFeed === 'followed' ? 'var(--primary)' : 'var(--text-muted)' %>; border-bottom: <%= currentFeed === 'followed' ? '2px solid var(--primary)' : 'none' %>;">
+            Followed Globs
+          </a>
+          <% } %>
+
       </div>
 
-    </div>
+      <% if (posts && posts.length> 0) { %>
+        <div class="feed-container">
 
-    <a href="/post/new" class="btn-primary">Create New Post</a>
-  </section>
+          <% posts.forEach(post=> { %>
+            <article class="post-card">
 
-  <section class="timeline-section">
-    <h3>All Globs</h3>
+              <div class="post-meta">
+                <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none;">
+                  g/<%= post.community_name %>
+                </a>
+                <span class="divider">•</span>
+                <span class="author">Posted by <%= post.author_name %></span>
+                <span class="divider">•</span>
+                <span class="date">
+                  <%= new Date(post.created_at).toLocaleDateString() %>
+                </span>
 
-    <% if (posts && posts.length > 0) { %>
-      <div class="feed-container">
-        
-        <% posts.forEach(post => { %>
-          <article class="post-card">
-            
-            <div class="post-meta">
-              <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none;">
-                g/<%= post.community_name %>
-              </a>
-              <span class="divider">•</span>
-              <span class="author">Posted by <%= post.author_name %></span>
-              <span class="divider">•</span>
-              <span class="date">
-                <%= new Date(post.created_at).toLocaleDateString() %>
-              </span>
-
-              <!-- User Avatar -->
-              <div
-                style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
-                <div style="width: 16px; height: 16px;">
-                  <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                <!-- User Avatar -->
+                <div
+                  style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+                  <div style="width: 16px; height: 16px;">
+                    <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                  </div>
                 </div>
+
               </div>
 
-            </div>
-            
-            <h4 class="post-title"><%= post.title %></h4>
-            
-            <p class="post-body"><%= post.body %></p>
-            
-            <!-- Delete button conditionally appears -->
-            <% if (locals.currentUser && currentUser.id===post.user_id) { %>
-            
-              <div class="post-actions" style="margin-top: 1rem; padding-top: 0.5rem;">
-                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0; display: flex;">
-                  <button type="submit"
-                    style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; padding: 0; margin-left: auto;">
-                    Delete Post
-                  </button>
-                </form>
-              </div>
-            
-            <% } %>
-            
-          </article>
-        <% }) %>
-        
-      </div>
-    <% } else { %>
-      <div class="empty-state">
-        <p>It's quiet in here... Be the first to say hello!</p>
-      </div>
-    <% } %>
-    
-  </section>
-</div>
+              <h4 class="post-title">
+                <%= post.title %>
+              </h4>
 
-<%- include('partials/footer.ejs') %>
+              <p class="post-body">
+                <%= post.body %>
+              </p>
+
+              <!-- Delete button conditionally appears -->
+              <% if (locals.currentUser && currentUser.id===post.user_id) { %>
+
+                <div class="post-actions" style="margin-top: 1rem; padding-top: 0.5rem;">
+                  <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0; display: flex;">
+                    <button type="submit"
+                      style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; padding: 0; margin-left: auto;">
+                      Delete Post
+                    </button>
+                  </form>
+                </div>
+
+                <% } %>
+
+            </article>
+            <% }) %>
+
+        </div>
+        <% } else { %>
+          <div class="empty-state">
+            <p>It's quiet in here... Be the first to say hello!</p>
+          </div>
+          <% } %>
+
+    </section>
+  </div>
+
+  <%- include('partials/footer.ejs') %>
