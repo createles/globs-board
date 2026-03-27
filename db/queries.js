@@ -64,13 +64,14 @@ export async function getPostById(postId) {
   return result.rows[0]; // Return the single post object
 }
 
+// Fetch a single community by its name (ignoring spaces and casing)
 export async function getCommunityByName(communityName) {
   const result = await pool.query(
-    `SELECT * FROM communities WHERE community_name = $1;`,
-    [communityName]
+    `SELECT * FROM communities 
+     WHERE REPLACE(community_name, ' ', '') ILIKE $1;`, // ILIKE makes it case insensitive (i.e. g/pcgaminghardware works)
+    [communityName] // Express passes 'PCGamingHardware'
   );
   
-  // Returns just the single community object, or undefined if it doesn't exist
   return result.rows[0];
 }
 

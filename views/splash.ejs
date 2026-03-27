@@ -39,7 +39,7 @@
           <article class="post-card" style="opacity: 0.85; transform: scale(0.98);">
 
             <div class="post-meta">
-              <span class="community-name">g/<%= post.community_name %></span>
+              <a href="/g/<%= post.community_name.replaceAll(' ', '') %>" class="community-name">g/<%= post.community_name.replaceAll(' ', '') %>
               <span class="divider">•</span>
               <span class="author">Posted by <%= post.author_name %></span>
 

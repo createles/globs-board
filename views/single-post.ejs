@@ -12,8 +12,8 @@
   <article class="post-card" style="padding: 3rem; border-radius: 2rem;">
     
     <div class="post-meta" style="margin-bottom: 2rem; border-bottom: 1px solid var(--surface-high); padding-bottom: 1.5rem;">
-      <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none; font-size: 1.1rem;">
-        g/<%= post.community_name %>
+      <a href="/g/<%= post.community_name.replaceAll(' ', '') %>" class="community-name">
+        g/<%= post.community_name.replaceAll(' ', '') %>
       </a>
       <span class="divider">•</span>
       <span class="author" style="font-size: 1rem;">Posted by <%= post.author_name %></span>

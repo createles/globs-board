@@ -48,8 +48,8 @@
             <article class="post-card">
 
               <div class="post-meta">
-                <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none;">
-                  g/<%= post.community_name %>
+                <a href="/g/<%= post.community_name.replaceAll(' ', '') %>" class="community-name">
+                  g/<%= post.community_name.replaceAll(' ', '') %>
                 </a>
                 <span class="divider">•</span>
                 <span class="author">Posted by <%= post.author_name %></span>

@@ -4,7 +4,7 @@
 
     <section class="user-profile-card">
       <div class="user-info">
-        <h2>g/<%= community.community_name %>
+        <h2><%= community.community_name %>
         </h2>
         <p class="handle">
           <%= community.community_description %>
@@ -16,7 +16,7 @@
         <% if (isMember) { %>
           <button class="btn-secondary" disabled>Joined</button>
           <% } else { %>
-            <form action="/g/<%= community.community_name %>/join" method="POST" style="margin: 0;">
+            <form action="/g/<%= community.community_name.replaceAll(' ', '') %>/join" method="POST">
               <button type="submit" class="btn-primary">Join Community</button>
             </form>
             <% } %>
