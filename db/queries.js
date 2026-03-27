@@ -76,6 +76,33 @@ export async function getPostsByCommunityId(communityId) {
   return result.rows;
 }
 
+// Get posts ONLY from communities the user has joined
+export async function getFollowedPosts(userId) {
+  const result = await pool.query(
+    `SELECT 
+       posts.id, 
+       posts.title, 
+       posts.body, 
+       posts.created_at,
+       posts.user_id,
+       users.username AS author_name,
+       users.icon AS author_icon,
+       communities.community_name
+     FROM posts
+     JOIN users 
+       ON posts.user_id = users.id
+     JOIN communities 
+       ON posts.community_id = communities.id
+     JOIN community_memberships
+       ON communities.id = community_memberships.community_id
+     WHERE community_memberships.user_id = $1
+     ORDER BY posts.created_at DESC;`,
+    [userId]
+  );
+
+  return result.rows;
+}
+
 // Check if a user is currently a member of a community
 export async function checkMembership(userId, communityId) {
   const result = await pool.query(
