@@ -1,65 +1,59 @@
 <%- include('partials/header.ejs') %>
 
-  <% if (locals.errorMessages && errorMessages.length> 0) { %>
-    <div id="toast-container" class="toast-container">
-      <% errorMessages.forEach(msg=> { %>
-        <div class="toast">
-          <span class="toast-icon">⚠️</span>
-          <p class="toast-msg">
-            <%= msg %>
-          </p>
-          <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
-        </div>
-        <% }) %>
-    </div>
-    <% } %>
+<% if (locals.errorMessages && errorMessages.length > 0) { %>
+  <div id="toast-container" class="toast-container">
+    <% errorMessages.forEach(msg => { %>
+      <div class="toast">
+        <span class="toast-icon">⚠️</span>
+        <p class="toast-msg"><%= msg %></p>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
 
-      <div class="new-post-container">
-        <form action="/post/new" method="POST" class="new-post-form">
-          <label for="new-post-community">
-            <select name="communityId" id="new-post-community" required>
-              <option value="" disabled <%=!locals.previousInput ? 'selected' : '' %>>Select a community...</option>
+<main class="dashboard-container" style="max-width: 650px;">
+  
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-left: 0.5rem;">
+    <span class="material-symbols-outlined" style="font-size: 2.5rem; color: var(--tertiary); filter: drop-shadow(0 0 10px rgba(161, 250, 255, 0.4)); font-variation-settings: 'FILL' 1;">water_drop</span>
+    <h1 style="font-size: 2.25rem; margin: 0; color: var(--text-main); letter-spacing: -0.03em;">Drop a Glob</h1>
+  </div>
 
-              <% communities.forEach(community=> { %>
-                <option value="<%= community.id %>" <%=locals.previousInput && previousInput.communityId==community.id
-                  ? 'selected' : '' %>
-                  >
-                  <%= community.community_name %>
-                </option>
-                <% }) %>
-            </select>
-          </label>
-          <label for="new-post-title">
-            <input type="text" name="title" id="new-post-title"
-              value="<%= locals.previousInput ? previousInput.title : '' %>" required>
-          </label>
-          <label for="new-post-body">
-            <textarea name="body" id="new-post-body"
-              required><%= locals.previousInput ? previousInput.body : '' %></textarea>
-          </label>
-
-          <button type="submit">Create Post</button>
-        </form>
+  <div style="background-color: var(--surface-low); padding: 2.5rem; border-radius: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+    <form action="/post/new" method="POST">
+      
+      <label for="community-id">Select Community</label>
+      <div style="position: relative;">
+        <select name="communityId" id="community-id" required style="appearance: none; cursor: pointer;">
+          <option value="" disabled <%= !locals.previousInput ? 'selected' : '' %>>Where should this flow?</option>
+          
+          <% if (locals.communities) { %>
+            <% communities.forEach(community => { %>
+              <option value="<%= community.id %>" <%= locals.previousInput && previousInput.community_id == community.id ? 'selected' : '' %>>
+                g/<%= community.community_name %>
+              </option>
+            <% }) %>
+          <% } %>
+        </select>
+        
+        <span class="material-symbols-outlined" style="position: absolute; right: 1.25rem; top: 1.15rem; color: var(--text-muted); pointer-events: none;">expand_more</span>
       </div>
 
-      <script>
-    // AUTO-DISMISS LOGIC
-    document.addEventListener("DOMContentLoaded", () => {
-      const toasts = document.querySelectorAll('.toast');
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" required placeholder="What's on your mind?" value="<%= locals.previousInput ? previousInput.title : '' %>" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; font-weight: 600;">
+
+      <label for="body">Content</label>
+      <textarea name="body" id="body" required placeholder="Let your thoughts flow into the underground..."><%= locals.previousInput ? previousInput.body : '' %></textarea>
+
+      <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+        <a href="/dashboard" class="btn-secondary" style="text-decoration: none; display: flex; align-items: center;">Cancel</a>
+        <button type="submit" class="btn-primary" style="padding: 0.75rem 2.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          Let it flow <span class="material-symbols-outlined" style="font-size: 1.2rem;">send</span>
+        </button>
+      </div>
       
-      toasts.forEach((toast, index) => {
-        // Wait 5 seconds, then fade out
-        setTimeout(() => {
-          toast.style.opacity = '0';
-          
-          // Wait for the fade-out CSS transition to finish (0.4s), then remove from DOM
-          setTimeout(() => {
-            toast.remove();
-          }, 400); 
-          
-        // Add a slight stagger if there are multiple errors (index * 200ms)
-        }, 5000 + (index * 200)); 
-      });
-    });
-  </script>
-      <%- include('partials/footer.ejs') %>
+    </form>
+  </div>
+</main>
+
+<%- include('partials/footer.ejs') %>
