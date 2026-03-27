@@ -1,81 +1,87 @@
 <%- include('partials/header.ejs') %>
 
-<div class="dashboard-container">
-  
-  <section class="user-profile-card">
-    <div class="user-info">
-      <h2>g/<%= community.community_name %>
-      </h2>
-      <p class="handle">
-        <%= community.community_description %>
-      </p>
-    </div>
-    <!-- Checked for logged in user -->
-    <% if (currentUser) { %>
-    <!-- Check if user is a member of the community -->
-      <% if (isMember) { %>
-        <button class="btn-secondary" disabled>Joined</button>
-        <% } else { %>
-          <form action="/g/<%= community.community_name %>/join" method="POST" style="margin: 0;">
-            <button type="submit" class="btn-primary">Join Community</button>
-          </form>
-          <% } %>
-  
-     <!-- If user not logged in, route them to login page -->
-      <% } else { %>
-        <a href="/login" class="btn-secondary" style="text-decoration: none;">Log in to Join</a>
-      <% } %>
-  </section>
+  <div class="dashboard-container">
 
-  <section class="timeline-section">
-    <h3>Community Posts</h3>
+    <section class="user-profile-card">
+      <div class="user-info">
+        <h2>g/<%= community.community_name %>
+        </h2>
+        <p class="handle">
+          <%= community.community_description %>
+        </p>
+      </div>
+      <!-- Checked for logged in user -->
+      <% if (currentUser) { %>
+        <!-- Check if user is a member of the community -->
+        <% if (isMember) { %>
+          <button class="btn-secondary" disabled>Joined</button>
+          <% } else { %>
+            <form action="/g/<%= community.community_name %>/join" method="POST" style="margin: 0;">
+              <button type="submit" class="btn-primary">Join Community</button>
+            </form>
+            <% } %>
 
-    <% if (posts && posts.length > 0) { %>
-      <div class="feed-container">
-        <% posts.forEach(post => { %>
-          <article class="post-card">
-            
-            <div class="post-meta">
-              <span class="author">Posted by <%= post.author_name %></span>
-              <span class="divider">•</span>
-              <span class="date"><%= new Date(post.created_at).toLocaleDateString() %></span>
+              <!-- If user not logged in, route them to login page -->
+              <% } else { %>
+                <a href="/login" class="btn-secondary" style="text-decoration: none;">Log in to Join</a>
+                <% } %>
+    </section>
 
-              <!-- User Avatar -->
-              <div
-                style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
-                <div style="width: 16px; height: 16px;">
-                  <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+    <section class="timeline-section">
+      <h3>Community Posts</h3>
+
+      <% if (posts && posts.length> 0) { %>
+        <div class="feed-container">
+          <% posts.forEach(post=> { %>
+            <article class="post-card">
+
+              <div class="post-meta">
+                <span class="author">Posted by <%= post.author_name %></span>
+                <span class="divider">•</span>
+                <span class="date">
+                  <%= new Date(post.created_at).toLocaleDateString() %>
+                </span>
+
+                <!-- User Avatar -->
+                <div
+                  style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+                  <div style="width: 16px; height: 16px;">
+                    <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                  </div>
                 </div>
-              </div>
-            
-            </div>
-            
-            <h4 class="post-title"><%= post.title %></h4>
-            <p class="post-body"><%= post.body %></p>
-            
-            <!-- Delete button conditionally appears -->
-            <% if (locals.currentUser && currentUser.id===post.user_id) { %>
-            
-              <div class="post-actions" style="margin-top: 1rem; padding-top: 0.5rem;">
-                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0; display: flex;">
-                  <button type="submit"
-                    style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; padding: 0; margin-left: auto;">
-                    Delete Post
-                  </button>
-                </form>
-              </div>
-            
-              <% } %>
-          </article>
-        <% }) %>
-      </div>
-    <% } else { %>
-      <div class="empty-state">
-        <p>No posts in this community yet. Be the first!</p>
-      </div>
-    <% } %>
-    
-  </section>
-</div>
 
-<%- include('partials/footer.ejs') %>
+              </div>
+
+              <a href="/post/<%= post.id %>" style="text-decoration: none; color: inherit;">
+                <h4 class="post-title">
+                  <%= post.title %>
+                </h4>
+              </a>
+              <p class="post-body">
+                <%= post.body %>
+              </p>
+
+              <!-- Delete button conditionally appears -->
+              <% if (locals.currentUser && locals.currentUser.id===post.user_id) { %>
+                <div style="display: flex; justify-content: flex-end;">
+                  <form action="/post/<%= post.id %>/delete" method="POST">
+                    <button type="submit"
+                      style="background: rgba(255, 77, 79, 0.1); border: 1px solid rgba(255, 77, 79, 0.3); color: var(--danger); display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; padding: 0.75rem 1rem; border-radius: 999px; transition: all 0.2s; font-size: 0.75rem;">
+                      <span class="material-symbols-outlined" style="font-size: 1.0rem;">delete</span> Delete Post
+                    </button>
+                  </form>
+                </div>
+                <% } %>
+            </article>
+            <% }) %>
+        </div>
+        <% } else { %>
+          <div class="empty-state">
+            <p>No posts in this community yet. Be the first!</p>
+          </div>
+          <% } %>
+
+    </section>
+  </div>
+
+  <%- include('partials/footer.ejs') %>
