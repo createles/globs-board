@@ -2,16 +2,27 @@
 
 <div class="dashboard-container">
   
-  <section class="user-profile-card">
-    <div class="user-info">
-      <h2>Welcome back, <%= currentUser.first_name %>!</h2>
-      <p class="handle">@<%= currentUser.username %></p>
+<section class="user-profile-card">
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <!-- Avatar Icon -->
+      <div style="width: 64px; height: 64px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--tertiary); box-shadow: 0 0 20px rgba(161, 250, 255, 0.15); flex-shrink: 0;">
+        <div style="width: 36px; height: 36px;">
+          <%- include('partials/avatar.ejs', { id: currentUser.icon }) %>
+        </div>
+      </div>
+      <!-- User name -->
+      <div class="user-info">
+        <h2>Hey, <%= currentUser.first_name %>!</h2>
+        <p class="handle">@<%= currentUser.username %></p>
+      </div>
+
     </div>
+
     <a href="/post/new" class="btn-primary">Create New Post</a>
   </section>
 
   <section class="timeline-section">
-    <h3>Global Feed</h3>
+    <h3>All Globs</h3>
 
     <% if (posts && posts.length > 0) { %>
       <div class="feed-container">
@@ -29,6 +40,15 @@
               <span class="date">
                 <%= new Date(post.created_at).toLocaleDateString() %>
               </span>
+
+              <!-- User Avatar -->
+              <div
+                style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+                <div style="width: 16px; height: 16px;">
+                  <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                </div>
+              </div>
+
             </div>
             
             <h4 class="post-title"><%= post.title %></h4>
@@ -38,11 +58,11 @@
             <!-- Delete button conditionally appears -->
             <% if (locals.currentUser && currentUser.id===post.user_id) { %>
             
-              <div class="post-actions" style="margin-top: 1rem; border-top: 1px solid #eee; padding-top: 0.5rem;">
-                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0;">
+              <div class="post-actions" style="margin-top: 1rem; padding-top: 0.5rem;">
+                <form action="/post/<%= post.id %>/delete" method="POST" style="margin: 0; display: flex;">
                   <button type="submit"
-                    style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 0.9rem; padding: 0;">
-                    🗑️ Delete Post
+                    style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.9rem; padding: 0; margin-left: auto;">
+                    Delete Post
                   </button>
                 </form>
               </div>
