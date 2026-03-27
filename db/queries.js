@@ -29,6 +29,7 @@ export async function getAllPosts() {
        posts.created_at,
        posts.user_id,
        users.username AS author_name,
+       users.icon AS author_icon,
        communities.community_name
      FROM posts
      JOIN users 
@@ -60,6 +61,7 @@ export async function getPostsByCommunityId(communityId) {
        posts.created_at,
        posts.user_id,
        users.username AS author_name,
+       users.icon AS author_icon,
        communities.community_name
      FROM posts
      JOIN users 
