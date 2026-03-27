@@ -1,6 +1,25 @@
 import * as db from '../db/queries.js';
 import { validationResult } from 'express-validator';
 
+export const getPost = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const post = await db.getPostById(postId);
+
+    // If user routes to random inexistent id, redirect to dashboard
+    if (!post) {
+      return res.redirect('/dashboard'); 
+    }
+
+    res.render("single-post", {
+      title: `${post.title} - Globs`,
+      post: post
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const newPostGet = async (req, res, next) => {
   try {
     const communities = await db.getAllCommunities()

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAuth } from "../middleware/authMiddleware.js";
-import { newPostGet, newPostPost, postDeletePost } from "../controllers/postController.js";
+import { getPost, newPostGet, newPostPost, postDeletePost } from "../controllers/postController.js";
 import { body } from "express-validator"
 
 const router = Router();
@@ -12,9 +12,8 @@ const validatePost = [
   body("communityId").notEmpty().withMessage("Please select a community")
 ];
 
-router.get("/", (req, res) => {
-  res.send("This route is wired up correctly!");
-});
+router.get("/:postId", getPost);
+router.post("/:postId/delete", postDeletePost);
 
 router.get("/new", isAuth, newPostGet);
 router.post("/new", isAuth, validatePost, newPostPost);

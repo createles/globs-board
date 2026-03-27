@@ -1,0 +1,49 @@
+<%- include('partials/header.ejs') %>
+
+<main class="dashboard-container" style="max-width: 800px; margin-top: 3rem;">
+  
+  <div style="margin-bottom: 2rem;">
+    <a href="javascript:history.back()" style="color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif; transition: color 0.2s;">
+      <span class="material-symbols-outlined" style="font-size: 1.2rem;">arrow_back</span>
+      Back to flow
+    </a>
+  </div>
+
+  <article class="post-card" style="padding: 3rem; border-radius: 2rem;">
+    
+    <div class="post-meta" style="margin-bottom: 2rem; border-bottom: 1px solid var(--surface-high); padding-bottom: 1.5rem;">
+      <a href="/g/<%= post.community_name %>" class="community-name" style="text-decoration: none; font-size: 1.1rem;">
+        g/<%= post.community_name %>
+      </a>
+      <span class="divider">•</span>
+      <span class="author" style="font-size: 1rem;">Posted by <%= post.author_name %></span>
+      <span class="divider">•</span>
+      <span class="date" style="font-size: 1rem;">
+        <%= new Date(post.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) %>
+      </span>
+
+      <div style="width: 36px; height: 36px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+        <div style="width: 20px; height: 20px;">
+          <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="post-title" style="font-size: 2.25rem; margin-bottom: 2rem; color: var(--text-main); line-height: 1.2;"><%= post.title %></h1>
+    
+    <p class="post-body" style="font-size: 1.1rem; line-height: 1.8; color: #d1d1db;"><%= post.body %></p>
+
+    <% if (locals.currentUser && locals.currentUser.id === post.user_id) { %>
+      <div style="margin-top: 4rem; display: flex; justify-content: flex-end;">
+        <form action="/post/<%= post.id %>/delete" method="POST">
+          <button type="submit" style="background: rgba(255, 77, 79, 0.1); border: 1px solid rgba(255, 77, 79, 0.3); color: var(--danger); display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 999px; transition: all 0.2s;">
+            <span class="material-symbols-outlined" style="font-size: 1.1rem;">delete</span> Delete Post
+          </button>
+        </form>
+      </div>
+    <% } %>
+
+  </article>
+</main>
+
+<%- include('partials/footer.ejs') %>

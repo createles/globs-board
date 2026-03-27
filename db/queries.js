@@ -42,6 +42,28 @@ export async function getAllPosts() {
   return result.rows;
 }
 
+// Fetch a single post by its ID
+export async function getPostById(postId) {
+  const result = await pool.query(
+    `SELECT 
+       posts.id, 
+       posts.title, 
+       posts.body, 
+       posts.created_at,
+       posts.user_id,
+       users.username AS author_name,
+       users.icon AS author_icon,
+       communities.community_name
+     FROM posts
+     JOIN users ON posts.user_id = users.id
+     JOIN communities ON posts.community_id = communities.id
+     WHERE posts.id = $1;`,
+    [postId]
+  );
+  
+  return result.rows[0]; // Return the single post object
+}
+
 export async function getCommunityByName(communityName) {
   const result = await pool.query(
     `SELECT * FROM communities WHERE community_name = $1;`,
