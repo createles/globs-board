@@ -22,15 +22,38 @@
     </div>
 
     <form action="/signup" method="POST">
+
+      <label>Choose your Avatar</label>
+      <div class="avatar-grid">
+        <% 
+          const avatars = [
+            { id: 1, name: 'cat', title: 'Cat' },
+            { id: 2, name: 'dog', title: 'Dog' },
+            { id: 3, name: 'bunny', title: 'Bunny' },
+            { id: 4, name: 'gorilla', title: 'Gorilla' },
+            { id: 5, name: 'robot', title: 'Robot' },
+            { id: 6, name: 'alien', title: 'Alien' }
+          ]; 
+        %>
+        
+        <% avatars.forEach(avatar => { %>
+          <div>
+            <input type="radio" name="icon" id="icon-<%= avatar.name %>" value="<%= avatar.id %>" class="avatar-radio" required>
+            <label for="icon-<%= avatar.name %>" class="avatar-label" title="<%= avatar.title %>">
+              <%- include('partials/avatar.ejs', { id: avatar.id }) %>
+            </label>
+          </div>
+        <% }) %>
+      </div>
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <div>
-          <label for="first_name">First Name</label>
-          <input type="text" name="first_name" id="first_name" required placeholder="Alex" value="<%= locals.previousInput ? previousInput.first_name : '' %>">
+          <label for="first-name">First Name</label>
+          <input type="text" name="firstName" id="first-name" required placeholder="Alex" value="<%= locals.previousInput ? previousInput.first_name : '' %>">
         </div>
         <div>
-          <label for="last_name">Last Name</label>
-          <input type="text" name="last_name" id="last_name" required placeholder="Hardware" value="<%= locals.previousInput ? previousInput.last_name : '' %>">
+          <label for="last-name">Last Name</label>
+          <input type="text" name="lastName" id="last-name" required placeholder="Hardware" value="<%= locals.previousInput ? previousInput.last_name : '' %>">
         </div>
       </div>
 
@@ -40,8 +63,8 @@
       <label for="password">Password</label>
       <input type="password" name="password" id="password" required placeholder="Make it secure">
 
-      <label for="confirm_password">Confirm Password</label>
-      <input type="password" name="confirm_password" id="confirm_password" required placeholder="Type it one more time">
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" name="passwordConfirm" id="confirm-password" required placeholder="Type it one more time">
 
       <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1.5rem; padding: 1rem;">
         Create Account
