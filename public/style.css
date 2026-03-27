@@ -133,7 +133,6 @@ a:hover {
 
 .post-body {
   color: var(--text-main);
-  white-space: pre-wrap;
   font-size: 0.95rem;
   margin: 0;
 }
@@ -456,4 +455,151 @@ label {
 
 .avatar-radio:checked + .avatar-label svg {
   transform: scale(1.1);
+}
+
+/* =========================================
+   RESPONSIVE STYLING
+   ========================================= */
+
+/* 1. MOBILE PHONES (Max 768px) */
+@media (max-width: 768px) {
+
+  html { font-size: 14px; }
+
+  /* Stack logo and links */
+  .top-nav {
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* Stack avatar, text, and button */
+  .user-profile-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 1.5rem 1rem;
+  }
+  
+  /* Target the inline flexbox grouping the avatar and text */
+  .user-profile-card > div {
+    flex-direction: column;
+    gap: 1rem !important; 
+  }
+
+  /* Make buttons full-width on mobile for easy tapping */
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Post Cards: use grid to break data into two stacking rows */
+/* Post Cards: Mobile Grid Layout */
+  .post-meta {
+    display: grid;
+    /* Columns: 1(Author) | 2(Dot) | 3(Date) | 4(Empty Space) | 5(Avatar) */
+    grid-template-columns: auto auto auto 1fr auto;
+    row-gap: 0.15rem;
+    column-gap: 0.4rem;
+    align-items: center;
+  }
+
+  /* Row 1: Community Name */
+  .post-meta .community-name {
+    grid-column: 1 / 5; /* Spans across columns 1 through 4 */
+    grid-row: 1;
+    font-size: 1rem; /* Slightly larger to act as a sub-header */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  /* Hide the first bullet point since Community is on its own line */
+  .post-meta .community-name + .divider {
+    display: none;
+  }
+
+  /* Row 2: Author Details */
+  .post-meta .author {
+    grid-column: 1;
+    grid-row: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .post-meta .author + .divider {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .post-meta .date {
+    grid-column: 3;
+    grid-row: 2;
+    white-space: nowrap;
+  }
+
+  /* The Avatar: Pinned to the right, spanning both rows */
+  .post-meta > div {
+    grid-column: 5;
+    grid-row: 1 / 3; /* Stretches from row 1 to row 2 */
+    margin-left: auto;
+  }
+
+  /* Sign Up Form: Force the 3-column avatar grid to 2 columns */
+  .avatar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Sign Up Form: Force the First/Last name inline grid to stack */
+  form > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 2. TABLETS & SMALL DESKTOPS (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .dashboard-container {
+    padding: 0 2rem;
+  }
+}
+
+/* 3. LARGE DESKTOPS (1440p / Ultrawide) */
+@media (min-width: 1440px) {
+  .dashboard-container {
+    max-width: 800px; /* Slightly wider feed */
+  }
+  
+  .top-nav {
+    max-width: 1100px; /* Spread out the navigation */
+  }
+
+  .post-title {
+    font-size: 1.35rem; /* Slightly larger headings */
+  }
+}
+
+/* 4. 4K DISPLAYS (2560px and up) */
+@media (min-width: 2560px) {
+  html { 
+    font-size: 125%; /* Scales 1rem from 16px to 20px globally */
+  }
+
+  .dashboard-container {
+    max-width: 1000px;
+  }
+
+  /* Enhance the background globs for massive screens */
+  .glob {
+    filter: blur(120px);
+  }
 }
