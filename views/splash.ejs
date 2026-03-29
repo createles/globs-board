@@ -28,44 +28,64 @@
       <div style="height: 1px; background: var(--surface-high); flex-grow: 1;"></div>
       <h3
         style="color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; margin: 0;">
-        Most current blops
+        Most recent blops
       </h3>
       <div style="height: 1px; background: var(--surface-high); flex-grow: 1;"></div>
     </div>
 
     <% if (posts && posts.length> 0) { %>
-      <div class="feed-container">
-        <% posts.forEach(post=> { %>
-          <article class="post-card" style="opacity: 0.85; transform: scale(0.98);">
+        <div class="feed-container">
 
-            <div class="post-meta">
-              <a href="/g/<%= post.community_name.replaceAll(' ', '') %>" class="community-name">g/<%= post.community_name.replaceAll(' ', '') %>
-              <span class="divider">•</span>
-              <span class="author">Posted by <%= post.author_name %></span>
+          <% posts.forEach(post=> { %>
+            <article class="post-card">
 
-              <!-- User Avatar -->
-              <div
-                style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
-                <div style="width: 16px; height: 16px;">
-                  <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+              <div class="post-meta">
+                <a href="/g/<%= post.community_name.replaceAll(' ', '') %>" class="community-name">
+                  g/<%= post.community_name.replaceAll(' ', '') %>
+                </a>
+                <span class="divider">•</span>
+                <span class="author">Posted by <%= post.author_name %></span>
+                <span class="divider">•</span>
+                <span class="date">
+                  <%= new Date(post.created_at).toLocaleDateString() %>
+                </span>
+
+                <!-- User Avatar -->
+                <div
+                  style="width: 28px; height: 28px; background-color: var(--surface-high); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: var(--text-muted); flex-shrink: 0; margin-left: auto;">
+                  <div style="width: 16px; height: 16px;">
+                    <%- include('partials/avatar.ejs', { id: post.author_icon }) %>
+                  </div>
                 </div>
+
               </div>
-            </div>
 
-            <a href="/post/<%= post.id %>" style="text-decoration: none; color: inherit;">
-              <h4 class="post-title">
-                <%= post.title %>
-              </h4>
-            </a>
+              <a href="/post/<%= post.id %>" style="text-decoration: none; color: inherit;">
+                <h4 class="post-title">
+                  <%= post.title %>
+                </h4>
+              </a>
 
-            <p class="post-body"
-              style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-              <%= post.body %>
-            </p>
+              <p class="post-body">
+                <%= post.body %>
+              </p>
 
-          </article>
-          <% }) %>
-      </div>
+              <!-- Delete button conditionally appears -->
+              <% if (locals.currentUser && locals.currentUser.id===post.user_id) { %>
+                <div style="display: flex; justify-content: flex-end;">
+                  <form action="/post/<%= post.id %>/delete" method="POST">
+                    <button type="submit"
+                      style="background: rgba(255, 77, 79, 0.1); border: 1px solid rgba(255, 77, 79, 0.3); color: var(--danger); display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; padding: 0.75rem 1rem; border-radius: 999px; transition: all 0.2s; font-size: 0.75rem;">
+                      <span class="material-symbols-outlined" style="font-size: 1.0rem;">delete</span> Delete Post
+                    </button>
+                  </form>
+                </div>
+                <% } %>
+
+            </article>
+            <% }) %>
+
+        </div>
 
       <div style="text-align: center; margin-top: 3rem; margin-bottom: 4rem;">
         <a href="/signup" class="btn-primary"
