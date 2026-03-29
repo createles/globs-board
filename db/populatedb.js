@@ -107,7 +107,12 @@ INSERT INTO posts (title, body, user_id, community_id) VALUES
 async function main() {
   console.log("Seeding database...");
 
-  const client = new Client({
+  const client = new Client(
+    process.env.DATABASE_URL ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
+    } :
+    {
     host: process.env.PGHOST,
     user: process.env.PGUSER,
     database: process.env.PGDATABASE,
