@@ -12,11 +12,12 @@ const validatePost = [
   body("communityId").notEmpty().withMessage("Please select a community")
 ];
 
-router.get("/:postId", getPost);
-router.post("/:postId/delete", postDeletePost);
-
+// Static routes to new post
 router.get("/new", isAuth, newPostGet);
 router.post("/new", isAuth, validatePost, newPostPost);
+
+router.get("/:postId", getPost);
+router.post("/:postId/delete", postDeletePost);
 
 // Post deletion route
 router.post("/:postId/delete", isAuth, postDeletePost);
